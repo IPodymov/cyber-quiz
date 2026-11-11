@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "courses": [
+    {
+      "id": "c-001",
+      "slug": "cyber-hygiene-basics",
+      "title": "Цифровая гигиена: базовый курс",
+      "description": "Пароли, фишинг, обновления и бэкапы — всё, что нужно знать каждому.",
+      "level": "beginner",
+      "status": "draft",
+      "modules": [
+        {
+          "id": "m-001",
+          "title": "Распознаём фишинг",
+          "lessons": [
+            { "id": "l-001", "title": "Признаки фишинга", "type": "article", "blogPostId": "p-001" },
+            { "id": "l-002", "title": "Проверка знаний", "type": "quiz", "quiz": { "category": "phishing", "count": 5 } }
+          ]
+        },
+        {
+          "id": "m-002",
+          "title": "Пароли и вход",
+          "lessons": [
+            { "id": "l-003", "title": "Passkeys", "type": "article", "blogPostId": "p-002" },
+            { "id": "l-004", "title": "Проверка знаний", "type": "quiz", "quiz": { "category": "passwords", "count": 5 } }
+          ]
+        }
+      ]
+    }
+  ]
+}
