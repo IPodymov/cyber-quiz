@@ -66,8 +66,7 @@ function renderHeader({nav, user}) {
         ${user
         ? `<a class="btn btn-sm" href="/profile.html">👤 ${escapeHtml(user.name)}</a>
              <button class="btn btn-sm" type="button" data-logout>Выйти</button>`
-        : `<a class="btn btn-sm" href="/login.html">Войти</a>
-             <a class="btn btn-sm btn-primary" href="/register.html">Регистрация</a>`}
+        : `<a class="btn btn-sm btn-primary" href="/login.html">Войти</a>`}
       </div>
     </div>`;
 
