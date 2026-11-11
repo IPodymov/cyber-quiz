@@ -1,85 +1,91 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Квиз — CyberQuiz</title>
-  <meta name="description" content="Пройдите случайный квиз по кибербезопасности.">
-  <meta name="theme-color" content="#0b0620">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap">
-  <link rel="stylesheet" href="/css/styles.css">
-  <script type="module" src="/js/quiz.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Квиз — CyberQuiz</title>
+    <meta name="description" content="Пройдите случайный квиз по кибербезопасности.">
+    <meta name="theme-color" content="#0b0620">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script type="module" src="/js/quiz.js"></script>
 </head>
 <body>
 <main id="main">
-  <div class="container quiz-shell">
-    <div data-view="setup">
-      <span class="eyebrow">Квиз</span>
-      <h1>Проверь свою <span class="gradient-text">киберзащиту</span></h1>
-      <p class="muted">Вопросы и варианты ответов перемешиваются при каждом запуске.</p>
-      <form class="card card-glow" data-setup-form>
-        <div class="field">
-          <label for="category">Тема</label>
-          <select id="category" name="category"><option value="">Все темы (микс)</option></select>
+    <div class="container quiz-shell">
+        <div data-view="setup">
+            <span class="eyebrow">Квиз</span>
+            <h1>Проверь свою <span class="gradient-text">киберзащиту</span></h1>
+            <p class="muted">Вопросы и варианты ответов перемешиваются при каждом запуске.</p>
+            <form class="card card-glow" data-setup-form>
+                <div class="field">
+                    <label for="category">Тема</label>
+                    <select id="category" name="category">
+                        <option value="">Все темы (микс)</option>
+                    </select>
+                </div>
+                <fieldset class="segmented">
+                    <legend>Сложность</legend>
+                    <input type="radio" name="difficulty" id="d-all" value="" checked><label for="d-all">Любая</label>
+                    <input type="radio" name="difficulty" id="d-easy" value="easy"><label for="d-easy">Лёгкая</label>
+                    <input type="radio" name="difficulty" id="d-medium" value="medium"><label
+                        for="d-medium">Средняя</label>
+                    <input type="radio" name="difficulty" id="d-hard" value="hard"><label for="d-hard">Сложная</label>
+                </fieldset>
+                <fieldset class="segmented">
+                    <legend>Количество вопросов</legend>
+                    <input type="radio" name="count" id="c-5" value="5"><label for="c-5">5</label>
+                    <input type="radio" name="count" id="c-10" value="10" checked><label for="c-10">10</label>
+                    <input type="radio" name="count" id="c-20" value="20"><label for="c-20">20</label>
+                </fieldset>
+                <div class="alert" role="alert" data-setup-error hidden></div>
+                <button class="btn btn-primary btn-lg" type="submit">Начать →</button>
+                <p class="muted" data-guest-hint style="margin:14px 0 0;font-size:.9rem" hidden>
+                    Хотите сохранять историю результатов? <a href="/register.html">Создайте аккаунт</a>.
+                </p>
+            </form>
         </div>
-        <fieldset class="segmented">
-          <legend>Сложность</legend>
-          <input type="radio" name="difficulty" id="d-all" value="" checked><label for="d-all">Любая</label>
-          <input type="radio" name="difficulty" id="d-easy" value="easy"><label for="d-easy">Лёгкая</label>
-          <input type="radio" name="difficulty" id="d-medium" value="medium"><label for="d-medium">Средняя</label>
-          <input type="radio" name="difficulty" id="d-hard" value="hard"><label for="d-hard">Сложная</label>
-        </fieldset>
-        <fieldset class="segmented">
-          <legend>Количество вопросов</legend>
-          <input type="radio" name="count" id="c-5" value="5"><label for="c-5">5</label>
-          <input type="radio" name="count" id="c-10" value="10" checked><label for="c-10">10</label>
-          <input type="radio" name="count" id="c-20" value="20"><label for="c-20">20</label>
-        </fieldset>
-        <div class="alert" role="alert" data-setup-error hidden></div>
-        <button class="btn btn-primary btn-lg" type="submit">Начать →</button>
-        <p class="muted" data-guest-hint style="margin:14px 0 0;font-size:.9rem" hidden>
-          Хотите сохранять историю результатов? <a href="/register">Создайте аккаунт</a>.
-        </p>
-      </form>
-    </div>
 
-    <div data-view="question" hidden>
-      <div class="progress">
-        <div class="progress-track" role="progressbar" aria-valuemin="0" data-progress-track><div class="progress-bar" data-progress-bar></div></div>
-        <span class="progress-label" data-progress-label></span>
-      </div>
-      <article class="card card-glow" aria-live="polite">
-        <div class="question-meta" data-question-meta></div>
-        <h1 class="question-title" tabindex="-1" data-question-title></h1>
-        <ul class="options" data-options></ul>
-        <div data-feedback></div>
-        <div class="quiz-actions">
-          <span class="kbd-hint">Клавиши <kbd>1</kbd>–<kbd>4</kbd> — ответ, <kbd>Enter</kbd> — далее</span>
-          <button class="btn btn-primary" type="button" data-next hidden>Далее →</button>
+        <div data-view="question" hidden>
+            <div class="progress">
+                <div class="progress-track" role="progressbar" aria-valuemin="0" data-progress-track>
+                    <div class="progress-bar" data-progress-bar></div>
+                </div>
+                <span class="progress-label" data-progress-label></span>
+            </div>
+            <article class="card card-glow" aria-live="polite">
+                <div class="question-meta" data-question-meta></div>
+                <h1 class="question-title" tabindex="-1" data-question-title></h1>
+                <ul class="options" data-options></ul>
+                <div data-feedback></div>
+                <div class="quiz-actions">
+                    <span class="kbd-hint">Клавиши <kbd>1</kbd>–<kbd>4</kbd> — ответ, <kbd>Enter</kbd> — далее</span>
+                    <button class="btn btn-primary" type="button" data-next hidden>Далее →</button>
+                </div>
+            </article>
         </div>
-      </article>
-    </div>
 
-    <div data-view="result" hidden>
-      <div class="card card-glow">
-        <div class="result-wrap">
-          <div class="result-ring" data-result-ring></div>
-          <div class="result-score" data-result-score></div>
+        <div data-view="result" hidden>
+            <div class="card card-glow">
+                <div class="result-wrap">
+                    <div class="result-ring" data-result-ring></div>
+                    <div class="result-score" data-result-score></div>
+                </div>
+                <h1 style="text-align:center" tabindex="-1" data-result-title></h1>
+                <p class="muted" style="text-align:center" data-result-text></p>
+                <h3 style="margin-top:28px">По темам</h3>
+                <div data-result-categories></div>
+                <div class="quiz-actions" style="justify-content:center">
+                    <button class="btn btn-primary btn-lg" type="button" data-restart>Ещё раз — новый порядок</button>
+                    <a class="btn btn-lg" href="/blog.html">Почитать блог</a>
+                </div>
+            </div>
         </div>
-        <h1 style="text-align:center" tabindex="-1" data-result-title></h1>
-        <p class="muted" style="text-align:center" data-result-text></p>
-        <h3 style="margin-top:28px">По темам</h3>
-        <div data-result-categories></div>
-        <div class="quiz-actions" style="justify-content:center">
-          <button class="btn btn-primary btn-lg" type="button" data-restart>Ещё раз — новый порядок</button>
-          <a class="btn btn-lg" href="/blog">Почитать блог</a>
-        </div>
-      </div>
     </div>
-  </div>
 </main>
 </body>
 </html>

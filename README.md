@@ -1,24 +1,17 @@
 # CyberQuiz
 
-Интерактивный квиз по кибербезопасности: главная с обоснованием ценности, случайный квиз с мгновенным разбором, блог, регистрация и вход.
+Фронтенд интерактивного квиза по кибербезопасности: главная с обоснованием ценности, случайный квиз с мгновенным разбором,
+блог, регистрация и вход. Бэкенд — отдельный API на Go, контракт описан в [docs/API.md](docs/API.md).
 
-## Запуск
+## Запуск фронтенда
 ```bash
-npm install
-npm run dev          # http://localhost:3000, перезапуск при изменениях
-npm test             # тесты API, рандомизации и банка вопросов
+npm run preview      # статический сервер на http://localhost:5173
 ```
-
-Переменные окружения:
-| Переменная | По умолчанию | Описание |
-|---|---|---|
-| `PORT` | 3000 | Порт сервера |
-| `JWT_SECRET` | dev-секрет | **Обязательно в production** |
-| `DB_DRIVER` | `json` | Драйвер хранилища |
-| `FEATURE_COURSES` | `false` | Включить раздел «Курсы» |
+Адрес API задаётся в `public/js/config.js` (`API_BASE_URL`, по умолчанию `/api` на том же домене).
+Без запущенного API страницы откроются, но квиз, блог и вход работать не будут.
 
 ## Банк заданий
-`data/questions.json` — открытый JSON. Формат вопроса:
+`data/questions.json` — открытый JSON:
 ```json
 {
   "id": "q-001", "category": "phishing", "difficulty": "easy",
@@ -26,18 +19,10 @@ npm test             # тесты API, рандомизации и банка в
   "correctOptionId": "b", "explanation": "…", "tags": ["email"]
 }
 ```
-Экспорт: `npm run export:sql` (PostgreSQL) и `npm run export:mongo` (MongoDB).
+- `npm test` — проверка целостности банка (уникальные id, существующие категории, правильный ответ среди вариантов).
+- `npm run export:sql` — схема + сид для PostgreSQL, `npm run export:mongo` — файлы для `mongoimport`.
 
-## API
-| Метод | Путь | |
-|---|---|---|
-| POST | `/api/auth/register`, `/api/auth/login`, `/api/auth/logout` | Авторизация |
-| GET | `/api/auth/me` | Текущий пользователь |
-| GET | `/api/quiz/meta` | Категории и количество вопросов |
-| POST | `/api/quiz/attempts` | Новый случайный квиз `{category?, difficulty?, count?}` |
-| POST | `/api/quiz/attempts/:id/answers` | Ответ `{questionId, optionId}` → разбор |
-| POST | `/api/quiz/attempts/:id/finish` | Итог по темам |
-| GET | `/api/quiz/history` | История (нужен вход) |
-| GET | `/api/blog/posts`, `/api/blog/posts/:slug` | Блог |
-
-Документация: [UX-исследование](docs/UX-RESEARCH.md) · [Архитектура и масштабирование](docs/ARCHITECTURE.md)
+## Документация
+- [Контракт API](docs/API.md)
+- [Архитектура и масштабирование](docs/ARCHITECTURE.md)
+- [UX-исследование](docs/UX-RESEARCH.md)

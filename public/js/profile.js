@@ -4,7 +4,7 @@ const config = await initLayout();
 const root = document.querySelector('[data-profile]');
 
 if (!config.user) {
-  location.replace('/login?next=/profile');
+  location.replace('/login.html?next=/profile.html');
 } else {
   const [{ user }, { attempts }] = await Promise.all([api('/auth/me'), api('/quiz/history')]);
   const best = attempts.reduce((max, a) => Math.max(max, a.percent), 0);
@@ -27,5 +27,5 @@ if (!config.user) {
             </div>
             <span class="muted">${a.byCategory.map((c) => escapeHtml(c.title)).join(' · ')}</span>
           </div>`).join('')
-      : '<p class="muted">Вы ещё не проходили квиз. <a href="/quiz">Начать →</a></p>'}`;
+      : '<p class="muted">Вы ещё не проходили квиз. <a href="/quiz.html">Начать →</a></p>'}`;
 }

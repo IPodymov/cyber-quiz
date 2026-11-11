@@ -1,7 +1,7 @@
 import {initLayout, api} from './app.js';
 
 const config = await initLayout();
-if (config.user) location.replace('/profile');
+if (config.user) location.replace('/profile.html');
 
 const form = document.querySelector('[data-auth-form]');
 const mode = form.dataset.authForm;
@@ -27,7 +27,7 @@ form.addEventListener('submit', async (event) => {
     try {
         await api(`/auth/${mode}`, {method: 'POST', body});
         const next = new URLSearchParams(location.search).get('next');
-        location.href = next && next.startsWith('/') && !next.startsWith('//') ? next : '/quiz';
+        location.href = next && next.startsWith('/') && !next.startsWith('//') ? next : '/quiz.html';
     } catch (err) {
         showErrors(err.message, err.details);
     } finally {

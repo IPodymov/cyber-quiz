@@ -1,9 +1,10 @@
 // Общий модуль: запросы к API, шапка/подвал, утилиты.
+import {API_BASE_URL, FEATURES, NAV} from './config.js';
 
 export async function api(path, {method = 'GET', body} = {}) {
-    const res = await fetch(`/api${path}`, {
+    const res = await fetch(`${API_BASE_URL}${path}`, {
         method,
-        credentials: 'same-origin',
+        credentials: 'include',
         headers: body ? {'Content-Type': 'application/json'} : undefined,
         body: body ? JSON.stringify(body) : undefined,
     });
@@ -33,14 +34,20 @@ export function formatDate(iso) {
 
 let configPromise;
 
+// Навигация и флаги — из config.js, пользователь — из API (401 или недоступный API = гость)
 export function getConfig() {
-    configPromise ||= api('/config').catch(() => ({nav: [{href: '/', label: 'Главная'}], user: null, features: {}}));
+    configPromise ||= api('/auth/me')
+        .then(({user}) => user)
+        .catch(() => null)
+        .then((user) => ({nav: NAV, features: FEATURES, user}));
     return configPromise;
 }
 
 function isActive(href) {
     const path = location.pathname;
-    return href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`);
+    if (href === '/') return path === '/' || path === '/index.html';
+    // Статья блога (post.html) подсвечивает пункт «Блог»
+    return path === href || (href === '/blog.html' && path === '/post.html');
 }
 
 function renderHeader({nav, user}) {
@@ -57,10 +64,10 @@ function renderHeader({nav, user}) {
       </nav>
       <div class="auth-area">
         ${user
-        ? `<a class="btn btn-sm" href="/profile">👤 ${escapeHtml(user.name)}</a>
+        ? `<a class="btn btn-sm" href="/profile.html">👤 ${escapeHtml(user.name)}</a>
              <button class="btn btn-sm" type="button" data-logout>Выйти</button>`
-        : `<a class="btn btn-sm" href="/login">Войти</a>
-             <a class="btn btn-sm btn-primary" href="/register">Регистрация</a>`}
+        : `<a class="btn btn-sm" href="/login.html">Войти</a>
+             <a class="btn btn-sm btn-primary" href="/register.html">Регистрация</a>`}
       </div>
     </div>`;
 
@@ -84,7 +91,7 @@ function renderFooter() {
     footer.innerHTML = `
     <div class="container">
       <span>© ${new Date().getFullYear()} CyberQuiz — учимся защищаться, играя</span>
-      <span><a href="/quiz">Пройти квиз</a> · <a href="/blog">Блог</a></span>
+      <span><a href="/quiz.html">Пройти квиз</a> · <a href="/blog.html">Блог</a></span>
     </div>`;
     return footer;
 }

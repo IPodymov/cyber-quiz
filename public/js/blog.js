@@ -12,7 +12,7 @@ api('/blog/posts')
         }
         list.innerHTML = posts
             .map((p) => `
-        <a class="card post-card" href="/blog/${encodeURIComponent(p.slug)}">
+        <a class="card post-card" href="/post.html?slug=${encodeURIComponent(p.slug)}">
           <span class="chip">${p.readingMinutes} мин чтения</span>
           <h3>${escapeHtml(p.title)}</h3>
           <p class="muted">${escapeHtml(p.excerpt)}</p>

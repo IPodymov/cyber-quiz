@@ -14,7 +14,7 @@ api('/quiz/meta')
         <div class="card">
           <span class="chip" style="color:${escapeHtml(c.color)}"><span class="dot"></span>${c.questionCount} вопросов</span>
           <h3 style="margin-top:12px">${escapeHtml(c.title)}</h3>
-          <a href="/quiz?category=${encodeURIComponent(c.id)}">Пройти по теме →</a>
+          <a href="/quiz.html?category=${encodeURIComponent(c.id)}">Пройти по теме →</a>
         </div>`)
             .join('');
     })
